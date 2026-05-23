@@ -1,0 +1,46 @@
+<div class="map-wrapper">
+    @if (!selectedCase) {
+    <div class="map-empty">
+        <span class="map-empty__icon">🗺️</span>
+        <p>Select a case to view the map</p>
+    </div>
+    }
+
+    <div #mapContainer class="map-container" [class.map-container--hidden]="!selectedCase"></div>
+
+    <!-- Legend -->
+    @if (selectedCase) {
+    <div class="map-legend">
+        <div class="map-legend__title">Map Legend</div>
+        <div class="map-legend__item">
+            <span class="map-legend__dot map-legend__dot--crime"></span>
+            Crime Scene
+        </div>
+        <div class="map-legend__item">
+            <span class="map-legend__dot map-legend__dot--high"></span>
+            High Risk Suspect
+        </div>
+        <div class="map-legend__item">
+            <span class="map-legend__dot map-legend__dot--medium"></span>
+            Medium Risk Suspect
+        </div>
+        <div class="map-legend__item">
+            <span class="map-legend__dot map-legend__dot--evidence"></span>
+            Evidence
+        </div>
+        @if (selectedSuspect) {
+        <div class="map-legend__item">
+            <span class="map-legend__line"></span>
+            Movement Path
+        </div>
+        }
+    </div>
+    }
+
+    <!-- Focus mode badge -->
+    @if (selectedSuspect) {
+    <div class="map-focus-badge">
+        🔍 Tracking: {{ selectedSuspect.name }}
+    </div>
+    }
+</div>

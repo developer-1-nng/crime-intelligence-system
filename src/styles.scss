@@ -1,1 +1,211 @@
-/* You can add global styles to this file, and also import other style files */
+@import './styles/leaflet-overrides';
+
+// ── Variables ────────────────────────────────────────────────────────────────
+$bg-primary: #0a0f1e;
+$bg-secondary: #1a1f2e;
+$bg-tertiary: #0f172a;
+$bg-panel: #1e2a3a;
+
+$border-color: rgba(75, 85, 99, 0.5);
+$border-light: rgba(75, 85, 99, 0.3);
+
+$accent-blue: #1e3a8a;
+$accent-blue-light: #3b82f6;
+$color-red: #dc2626;
+$color-amber: #f59e0b;
+$color-green: #16a34a;
+
+$text-primary: #ffffff;
+$text-secondary: #d1d5dc;
+$text-muted: #99a1af;
+$text-blue: #bfdbfe;
+
+$font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+$font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+// ── Reset & Base ─────────────────────────────────────────────────────────────
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    background: $bg-primary;
+    color: $text-primary;
+    font-family: $font-sans;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+
+
+// ── Shared Utility Classes ────────────────────────────────────────────────────
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &--high {
+        background: $color-red;
+        color: #fff;
+    }
+
+    &--medium {
+        background: $color-amber;
+        color: #fff;
+    }
+
+    &--low {
+        background: $color-green;
+        color: #fff;
+    }
+
+    &--active {
+        background: rgba($color-green, 0.15);
+        color: $color-green;
+    }
+
+    &--closed {
+        background: rgba(#6b7280, 0.2);
+        color: #9ca3af;
+    }
+}
+
+.risk-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    &--high {
+        background: rgba($color-red, 0.15);
+        color: $color-red;
+    }
+
+    &--medium {
+        background: rgba($color-amber, 0.15);
+        color: $color-amber;
+    }
+
+    &--low {
+        background: rgba(#6b7280, 0.2);
+        color: #9ca3af;
+    }
+}
+
+.score-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+
+    &__fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.5s ease;
+
+        &--high {
+            background: $color-red;
+        }
+
+        &--medium {
+            background: $color-amber;
+        }
+
+        &--low {
+            background: $color-green;
+        }
+    }
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    cursor: pointer;
+
+    &--primary {
+        background: $accent-blue;
+        color: #fff;
+        border: 1px solid rgba($accent-blue-light, 0.3);
+
+        &:hover {
+            background: lighten($accent-blue, 8%);
+        }
+    }
+
+    &--ghost {
+        background: transparent;
+        color: $text-secondary;
+        border: 1px solid $border-color;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: $text-primary;
+        }
+    }
+
+    &--back {
+        background: transparent;
+        color: $text-blue;
+        padding: 4px 0;
+        font-size: 13px;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+}
+
+lucide-icon {
+    display: flex;
+}
+
+// ── Scrollbar ────────────────────────────────────────────────────────────────
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(75, 85, 99, 0.4);
+    border-radius: 2px;
+}

@@ -1,0 +1,335 @@
+@use '../../../styles/variables' as *;
+
+.cases-list {
+    min-height: 100vh;
+    background: $bg-primary;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    // ── Header ───────────────────────────────────────────────────────────────
+    &__header {
+        background: $accent-blue;
+        border-bottom: 1px solid rgba($accent-blue-light, 0.3);
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+        animation: fadeInUp 0.3s ease;
+    }
+
+    &__header-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    &__logo {
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    &__title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 2px;
+    }
+
+    &__subtitle {
+        font-size: 12px;
+        color: $text-blue;
+    }
+
+    &__header-right {
+        text-align: right;
+    }
+
+    &__officer {
+        font-size: 13px;
+        color: $text-blue;
+        margin-bottom: 2px;
+    }
+
+    &__date {
+        font-size: 11px;
+        color: rgba($text-blue, 0.7);
+    }
+
+    // ── Content ──────────────────────────────────────────────────────────────
+    &__content {
+        max-width: 1100px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    // ── Stats row ────────────────────────────────────────────────────────────
+    &__stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        animation: fadeInUp 0.35s ease;
+    }
+
+    // ── Toolbar ──────────────────────────────────────────────────────────────
+    &__toolbar {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        background: $bg-secondary;
+        border: 1px solid $border-color;
+        border-radius: 10px;
+        padding: 12px 16px;
+        animation: fadeInUp 0.4s ease;
+    }
+
+    &__search {
+        flex: 1;
+        position: relative;
+    }
+
+    &__search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 14px;
+        pointer-events: none;
+    }
+
+    &__search-input {
+        width: 100%;
+        background: $bg-tertiary;
+        border: 1px solid $border-color;
+        border-radius: 7px;
+        padding: 9px 12px 9px 36px;
+        color: $text-primary;
+        font-size: 13px;
+        font-family: $font-sans;
+        outline: none;
+        transition: border-color 0.15s;
+
+        &::placeholder {
+            color: $text-muted;
+        }
+
+        &:focus {
+            border-color: $accent-blue-light;
+        }
+    }
+
+    &__filters {
+        display: flex;
+        gap: 6px;
+    }
+
+    &__filter-btn {
+        padding: 7px 14px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        color: $text-muted;
+        background: $bg-tertiary;
+        border: 1px solid $border-color;
+        cursor: pointer;
+        transition: all 0.15s;
+
+        &:hover {
+            color: $text-primary;
+            border-color: rgba($accent-blue-light, 0.4);
+        }
+
+        &--active {
+            background: rgba($accent-blue, 0.3);
+            border-color: rgba($accent-blue-light, 0.6);
+            color: $text-blue;
+        }
+    }
+
+    // ── Cards ────────────────────────────────────────────────────────────────
+    &__cards {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        animation: fadeInUp 0.45s ease;
+    }
+
+    &__empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 48px;
+        color: $text-muted;
+        font-size: 14px;
+
+        span {
+            font-size: 32px;
+        }
+    }
+
+
+}
+
+
+// ── Stat card ────────────────────────────────────────────────────────────────
+.stat-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+
+    &--blue {
+        background: linear-gradient(135deg, $accent-blue, rgba($accent-blue, 0.7));
+        border-color: rgba($accent-blue-light, 0.2);
+    }
+
+    &--green {
+        background: linear-gradient(135deg, $color-green, rgba($color-green, 0.7));
+        border-color: rgba($color-green, 0.2);
+    }
+
+    &--red {
+        background: linear-gradient(135deg, $color-red, rgba($color-red, 0.7));
+        border-color: rgba($color-red, 0.2);
+    }
+
+    &--gray {
+        background: linear-gradient(135deg, #374151, rgba(#374151, 0.8));
+        border-color: rgba(#6b7280, 0.2);
+    }
+
+    &__label {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.75);
+        margin-bottom: 4px;
+    }
+
+    &__value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1;
+    }
+
+    &__icon {
+        font-size: 28px;
+        background-color: #ffffff1a;
+        padding: 0.8rem;
+        border-radius: 10px;
+    }
+}
+
+// ── Case card ────────────────────────────────────────────────────────────────
+.case-card {
+    background: $bg-secondary;
+    border: 1px solid $border-color;
+    border-radius: 10px;
+    padding: 20px 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+
+    &:hover {
+        border-color: rgba($accent-blue-light, 0.5);
+        background: lighten($bg-secondary, 2%);
+        transform: translateX(3px);
+
+        .case-card__title {
+            color: $accent-blue-light;
+        }
+
+        .case-card__arrow {
+            color: $accent-blue-light;
+            transform: scale(1.2);
+        }
+    }
+
+    &__main {
+        flex: 1;
+        min-width: 0;
+    }
+
+    &__top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+    }
+
+    &__title {
+        font-size: 15px;
+        font-weight: 600;
+        color: $text-primary;
+        transition: color 0.15s;
+    }
+
+    &__status {
+        font-size: 12px;
+        font-weight: 500;
+
+        &--active {
+            color: $color-green;
+        }
+
+        &--closed {
+            color: $text-muted;
+        }
+    }
+
+    &__desc {
+        font-size: 12px;
+        color: $text-muted;
+        margin-bottom: 10px;
+        line-height: 1.5;
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    &__meta-item {
+        font-size: 12px;
+        color: $text-muted;
+    }
+
+    &__arrow {
+        font-size: 22px;
+        color: $text-muted;
+        transition: color 0.15s, transform 0.15s;
+        flex-shrink: 0;
+        background: rgba($text-muted, 0.1);
+        padding: 0.5rem;
+        border-radius: 10px;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

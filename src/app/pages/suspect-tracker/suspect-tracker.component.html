@@ -1,0 +1,172 @@
+@if (suspect) {
+  <div class="tracker">
+    <!-- Header -->
+    <div class="tracker__header">
+      <button class="btn btn--back" (click)="goBack()">
+        <span> <lucide-icon name="arrow-left" size="14"></lucide-icon></span>
+        Back to Case Details
+      </button>
+      <div class="tracker__header-row">
+        <div class="tracker__header-left">
+          <div class="tracker__header-icon">📡</div>
+          <div>
+            <h1 class="tracker__title">Suspect Tracker: {{ suspect.name }}</h1>
+            <p class="tracker__subtitle">
+              Real-time Movement &amp; Location Analysis
+            </p>
+          </div>
+        </div>
+        <div class="tracker__header-right">
+          <span class="badge badge--{{ suspect.riskLevel }}">
+            {{ suspect.riskLevel.toUpperCase() }} RISK
+          </span>
+          <div class="tracker__score">
+            <div class="tracker__score-label">Suspicion Score</div>
+            <div class="tracker__score-val">{{ suspect.suspicionScore }}%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="tracker__body">
+      <!-- Left sidebar -->
+      <div class="tracker__sidebar">
+        <!-- Profile -->
+        <div class="tracker__profile">
+          <div class="tracker__avatar tracker__avatar--{{ suspect.riskLevel }}">
+            {{ getInitials(suspect.name) }}
+          </div>
+          <div class="tracker__profile-info">
+            <h2 class="tracker__profile-name">{{ suspect.name }}</h2>
+            <p class="tracker__profile-id">ID: {{ suspect.id }}</p>
+          </div>
+        </div>
+
+        <!-- Score bar -->
+        <div class="tracker__score-section">
+          <div class="tracker__score-row">
+            <span class="tracker__score-lbl">Suspicion Score</span>
+            <span class="tracker__score-num"
+              >{{ suspect.suspicionScore }}%</span
+            >
+          </div>
+          <div class="score-bar">
+            <div
+              class="score-bar__fill score-bar__fill--{{ scoreClass }}"
+              [style.width.%]="suspect.suspicionScore"
+            ></div>
+          </div>
+
+          <div class="tracker__info-grid">
+            <div class="tracker__info-item">
+              <div class="tracker__info-label">Risk Level</div>
+              <span class="risk-badge risk-badge--{{ suspect.riskLevel }}">{{
+                suspect.riskLevel.toUpperCase()
+              }}</span>
+            </div>
+            <div class="tracker__info-item">
+              <div class="tracker__info-label">Events Tracked</div>
+              <div class="tracker__info-val">{{ events.length }}</div>
+            </div>
+          </div>
+
+          <div class="tracker__last-seen">
+            <div class="tracker__info-label">Last Seen</div>
+            <div class="tracker__last-seen-time">🕐 {{ suspect.lastSeen }}</div>
+            <div class="tracker__last-seen-loc">
+              📍 {{ suspect.lastSeenLocation }}
+            </div>
+          </div>
+
+          @if (relatedCase) {
+            <div class="tracker__case">
+              <div class="tracker__info-label">Related Case</div>
+              <div class="tracker__case-name">{{ relatedCase.title }}</div>
+            </div>
+          }
+        </div>
+
+        <!-- Linked reasons -->
+        <div class="tracker__reasons">
+          <h3 class="tracker__section-head">Linked Reasons</h3>
+          <ul class="tracker__reason-list">
+            @for (r of suspect.linkedReasons; track $index) {
+              <li class="tracker__reason">
+                <span class="tracker__reason-dot"></span>
+                {{ r }}
+              </li>
+            }
+          </ul>
+        </div>
+
+        <!-- Location Timeline -->
+        <div class="tracker__timeline">
+          <h3 class="tracker__section-head">📡 Location Timeline</h3>
+          <div class="tracker__event-list">
+            @for (e of events; track $index) {
+              <div
+                class="tracker__event"
+                [class.tracker__event--selected]="selectedEventId === e.id"
+                (click)="selectEvent(e.id)"
+              >
+                <div
+                  class="tracker__event-icon tracker__event-icon--{{
+                    getEventTypeClass(e.type)
+                  }}"
+                >
+                  {{ getEventIcon(e.type) }}
+                </div>
+                <div class="tracker__event-body">
+                  <p class="tracker__event-desc">{{ e.description }}</p>
+                  <div class="tracker__event-time">🕐 {{ e.time }}</div>
+                  <div class="tracker__event-loc">📍 {{ e.location }}</div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Map + stats overlay -->
+      <div class="tracker__map-area">
+        <app-map
+          [selectedCase]="relatedCase"
+          [selectedSuspect]="suspect"
+          [suspects]="suspect ? [suspect] : []"
+          [evidence]="evidence"
+          [timelineEvents]="events"
+          [focusEventId]="selectedEventId"
+        />
+
+        <!-- Movement stats overlay -->
+        <div class="tracker__stats-overlay">
+          <h4 class="tracker__stats-title">Movement Statistics</h4>
+          <div class="tracker__stats-grid">
+            <div class="tracker__stat">
+              <div class="tracker__stat-label">Total Locations</div>
+              <div class="tracker__stat-val">{{ events.length }}</div>
+            </div>
+            <div class="tracker__stat">
+              <div class="tracker__stat-label">Evidence Points</div>
+              <div class="tracker__stat-val">{{ evidence.length }}</div>
+            </div>
+            <div class="tracker__stat">
+              <div class="tracker__stat-label">CCTV Captures</div>
+              <div class="tracker__stat-val">{{ cctvCount }}</div>
+            </div>
+            <div class="tracker__stat">
+              <div class="tracker__stat-label">Alerts</div>
+              <div class="tracker__stat-val">{{ alertCount }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="tracker__not-found">
+    <p>Suspect not found</p>
+    <button class="btn btn--primary" (click)="goBack()">Back to Cases</button>
+  </div>
+}

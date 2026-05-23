@@ -1,0 +1,312 @@
+@use '../../../styles/variables' as *;
+
+.case-detail {
+    height: 100vh;
+    background: $bg-primary;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    // ── Header ───────────────────────────────────────────────────────────────
+    &__header {
+        background: $accent-blue;
+        border-bottom: 1px solid rgba($accent-blue-light, 0.3);
+        padding: 16px 24px;
+        flex-shrink: 0;
+        animation: fadeInUp 0.25s ease;
+    }
+
+    &__header-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    &__back {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+    }
+
+    &__header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    &__header-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    &__icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.12);
+        color: $color-amber;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    &__title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 2px;
+    }
+
+    &__subtitle {
+        font-size: 12px;
+        color: $text-blue;
+    }
+
+    &__badges {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    &__status {
+        font-size: 13px;
+        font-weight: 500;
+
+        &--active {
+            color: #4ade80;
+        }
+
+        &--closed {
+            color: $text-muted;
+        }
+    }
+
+    // ── Body ─────────────────────────────────────────────────────────────────
+    &__body {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    // ── Info card ────────────────────────────────────────────────────────────
+    &__info-card {
+        background: $bg-secondary;
+        border: 1px solid $border-color;
+        border-radius: 10px;
+        padding: 20px 24px;
+        animation: fadeInUp 0.35s ease;
+    }
+
+    &__desc {
+        font-size: 13px;
+        color: $text-secondary;
+        line-height: 1.7;
+        margin-bottom: 14px;
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    &__meta-item {
+        font-size: 13px;
+        color: $text-muted;
+    }
+
+    &__section-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: $text-primary;
+        margin-bottom: 16px;
+    }
+
+    // ── Map row ──────────────────────────────────────────────────────────────
+    &__map-row {
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 16px;
+        height: 480px;
+        animation: fadeInUp 0.45s ease;
+    }
+
+    &__map-wrap {
+        background: $bg-secondary;
+        border: 1px solid $border-color;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    &__insights-wrap {
+        background: $bg-secondary;
+        border: 1px solid $border-color;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    // ── Timeline wrap ────────────────────────────────────────────────────────
+    &__timeline-wrap {
+        height: 260px;
+        background: $bg-secondary;
+        border: 1px solid $border-color;
+        border-radius: 10px;
+        overflow: hidden;
+        animation: fadeInUp 0.5s ease;
+    }
+
+    // ── Not found ────────────────────────────────────────────────────────────
+    &__not-found {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        color: $text-muted;
+        font-size: 16px;
+    }
+}
+
+
+// ── Suspects grid ────────────────────────────────────────────────────────────
+.suspects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    animation: fadeInUp 0.4s ease;
+}
+
+.suspect-card {
+    background: $bg-secondary;
+    border: 2px solid $border-color;
+    border-radius: 10px;
+    padding: 18px;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.15s;
+
+    &:hover {
+        transform: translateY(-2px);
+
+        .suspect-card__btn {
+            background: $accent-blue;
+            color: #fff;
+        }
+    }
+
+    &--high {
+        border-color: rgba($color-red, 0.35);
+        background: rgba($color-red, 0.04);
+    }
+
+    &--medium {
+        border-color: rgba($color-amber, 0.35);
+        background: rgba($color-amber, 0.04);
+    }
+
+    &--low {
+        border-color: $border-color;
+    }
+
+    &:hover {
+        border-color: rgba($accent-blue-light, 0.6);
+    }
+
+    &__top {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+
+    &__avatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, $accent-blue, rgba($accent-blue, 0.6));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+        flex-shrink: 0;
+    }
+
+    &__name {
+        font-size: 14px;
+        font-weight: 600;
+        color: $text-primary;
+        margin-bottom: 2px;
+    }
+
+    &__id {
+        font-size: 10px;
+        color: $text-muted;
+    }
+
+    &__score-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+    }
+
+    &__score-label {
+        font-size: 11px;
+        color: $text-muted;
+    }
+
+    &__score-val {
+        font-size: 11px;
+        color: $text-primary;
+        font-weight: 600;
+    }
+
+    .score-bar {
+        margin-bottom: 12px;
+    }
+
+    &__meta {
+        font-size: 11px;
+        color: $text-muted;
+        line-height: 2;
+        border-top: 1px solid $border-light;
+        padding-top: 10px;
+        margin-bottom: 12px;
+    }
+
+    &__btn {
+        width: 100%;
+        padding: 8px;
+        background: rgba($accent-blue, 0.15);
+        color: $accent-blue-light;
+        border: 1px solid rgba($accent-blue-light, 0.3);
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: center;
+        transition: background 0.15s, color 0.15s;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

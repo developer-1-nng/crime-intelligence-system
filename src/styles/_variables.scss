@@ -1,0 +1,73 @@
+// ── Design Tokens (import in every component SCSS) ───────────────────────────
+$bg-primary: #0a0f1e;
+$bg-secondary: #1a1f2e;
+$bg-tertiary: #0f172a;
+$bg-panel: #1e2a3a;
+
+$border-color: rgba(75, 85, 99, 0.5);
+$border-light: rgba(75, 85, 99, 0.3);
+
+$accent-blue: #1e3a8a;
+$accent-blue-light: #3b82f6;
+$color-red: #dc2626;
+$color-amber: #f59e0b;
+$color-green: #16a34a;
+$color-purple: #7c3aed;
+
+$text-primary: #ffffff;
+$text-secondary: #d1d5dc;
+$text-muted: #99a1af;
+$text-blue: #bfdbfe;
+
+$font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
+$font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+// ── Mixins ───────────────────────────────────────────────────────────────────
+@mixin card {
+  background: $bg-secondary;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+}
+
+@mixin card-hover {
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    border-color: $accent-blue;
+    background: lighten($bg-secondary, 2%);
+  }
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: $text-muted;
+}
+
+@mixin risk-colors($risk) {
+  @if $risk ==high {
+    color: $color-red;
+    background: rgba($color-red, 0.12);
+    border-color: rgba($color-red, 0.3);
+  }
+
+  @else if $risk ==medium {
+    color: $color-amber;
+    background: rgba($color-amber, 0.12);
+    border-color: rgba($color-amber, 0.3);
+  }
+
+  @else {
+    color: $color-green;
+    background: rgba($color-green, 0.12);
+    border-color: rgba($color-green, 0.3);
+  }
+}

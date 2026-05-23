@@ -1,0 +1,45 @@
+@use './variables' as *;
+
+.leaflet-container {
+    background: #080c14 !important;
+    font-family: $font-sans !important;
+}
+
+.leaflet-tile {
+    filter: brightness(0.28) saturate(0.5) hue-rotate(185deg) !important;
+}
+
+.leaflet-popup-content-wrapper {
+    background: $bg-secondary !important;
+    border: 1px solid $border-color !important;
+    border-radius: 6px !important;
+    color: $text-primary !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+}
+
+.leaflet-popup-tip {
+    background: $bg-secondary !important;
+}
+
+.leaflet-popup-content {
+    margin: 10px 14px !important;
+    font-size: 12px !important;
+    font-family: $font-sans !important;
+}
+
+.leaflet-control-zoom a {
+    background: $bg-secondary !important;
+    border-color: $border-color !important;
+    color: $text-secondary !important;
+
+    &:hover {
+        color: $text-primary !important;
+        background: $bg-panel !important;
+    }
+}
+
+.leaflet-control-attribution {
+    background: rgba(10, 15, 30, 0.8) !important;
+    color: $text-muted !important;
+    font-size: 9px !important;
+}

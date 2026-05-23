@@ -1,0 +1,144 @@
+@if (selectedCase) {
+  <div class="case-detail">
+    <!-- Header -->
+    <div class="case-detail__header">
+      <div class="case-detail__header-inner">
+        <div class="case-detail__back">
+          <lucide-icon name="arrow-left" size="14"></lucide-icon>
+          <button class="btn btn--back" (click)="goBack()">
+            Back to Cases
+          </button>
+        </div>
+        <div class="case-detail__header-row">
+          <div class="case-detail__header-left">
+            <div class="case-detail__icon">
+              <lucide-icon name="triangle-alert" size="28"></lucide-icon>
+            </div>
+            <div>
+              <h1 class="case-detail__title">{{ selectedCase.title }}</h1>
+              <p class="case-detail__subtitle">
+                Case Details &amp; Investigation
+              </p>
+            </div>
+          </div>
+          <div class="case-detail__badges">
+            <span class="badge badge--{{ selectedCase.priority }}">
+              {{ selectedCase.priority.toUpperCase() }} PRIORITY
+            </span>
+            <span
+              class="case-detail__status case-detail__status--{{
+                selectedCase.status
+              }}"
+            >
+              ● {{ selectedCase.status | titlecase }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page body -->
+    <div class="case-detail__body">
+      <!-- Case info card -->
+      <div class="case-detail__info-card">
+        <p class="case-detail__desc">{{ selectedCase.description }}</p>
+        <div class="case-detail__meta">
+          <span class="case-detail__meta-item"
+            >📍 {{ selectedCase.location }}</span
+          >
+          <span class="case-detail__meta-item">🕐 {{ selectedCase.time }}</span>
+          <span class="case-detail__meta-item"
+            >👤 {{ suspects.length }} Suspects Linked</span
+          >
+        </div>
+      </div>
+
+      <!-- Suspects grid -->
+      <section>
+        <h2 class="case-detail__section-title">Linked Suspects</h2>
+        <div class="suspects-grid">
+          @for (s of suspects; track s.id) {
+            <div class="suspect-card {{ getRiskBorderClass(s.riskLevel) }}">
+              <div class="suspect-card__top">
+                <div class="suspect-card__avatar">
+                  {{ getInitials(s.name) }}
+                </div>
+                <div>
+                  <div class="suspect-card__name">{{ s.name }}</div>
+                  <div class="suspect-card__id">ID: {{ s.id }}</div>
+                </div>
+
+                <div>
+                  <input
+                    type="checkbox"
+                    [id]="s.name"
+                    [name]="s.name"
+                    [value]="s.name"
+                    (change)="suspectSelected($event, s)"
+                  />
+                </div>
+              </div>
+
+              <div class="suspect-card__score-row">
+                <span class="suspect-card__score-label">Risk Level</span>
+                <span class="badge badge--{{ s.riskLevel }}">{{
+                  s.riskLevel.toUpperCase()
+                }}</span>
+              </div>
+              <div class="suspect-card__score-row">
+                <span class="suspect-card__score-label">Suspicion Score</span>
+                <span class="suspect-card__score-val"
+                  >{{ s.suspicionScore }}%</span
+                >
+              </div>
+              <div class="score-bar">
+                <div
+                  class="score-bar__fill score-bar__fill--{{
+                    getScoreClass(s.suspicionScore)
+                  }}"
+                  [style.width.%]="s.suspicionScore"
+                ></div>
+              </div>
+
+              <div class="suspect-card__meta">
+                <div>🕐 {{ s.lastSeen }}</div>
+                <div>📍 {{ s.lastSeenLocation }}</div>
+              </div>
+
+              <button class="suspect-card__btn" (click)="goToSuspect(s.id)">
+                View Suspect Details →
+              </button>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- Map + Insights row -->
+      <div class="case-detail__map-row">
+        <div class="case-detail__map-wrap">
+          <app-map
+            [selectedCase]="selectedCase"
+            [selectedSuspect]="null"
+            [suspects]="selectedSuspects"
+            [evidence]="evidence"
+            [timelineEvents]="timelineEvents"
+            [focusEventId]="selectedEventId"
+          />
+        </div>
+        <div class="case-detail__insights-wrap">
+          <app-insights
+            [selectedCase]="selectedCase"
+            [selectedSuspect]="null"
+            [suspects]="suspects"
+            [evidence]="evidence"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="case-detail__not-found">
+    <p>Case not found</p>
+    <button class="btn btn--primary" (click)="goBack()">Back to Cases</button>
+  </div>
+}

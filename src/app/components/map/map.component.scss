@@ -1,0 +1,267 @@
+@use '../../../styles/variables' as *;
+
+.map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: $bg-tertiary;
+    overflow: hidden;
+}
+
+.map-container {
+    width: 100%;
+    height: 100%;
+
+    &--hidden {
+        display: none;
+    }
+}
+
+.map-empty {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: $text-muted;
+    font-size: 14px;
+
+    &__icon {
+        font-size: 40px;
+    }
+}
+
+.map-legend {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background: rgba($bg-tertiary, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    padding: 10px 14px;
+    z-index: 1000;
+    min-width: 160px;
+
+    &__title {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: $text-muted;
+        margin-bottom: 8px;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        color: $text-secondary;
+        margin-bottom: 4px;
+    }
+
+    &__dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+
+        &--crime {
+            background: $color-red;
+        }
+
+        &--high {
+            background: $color-red;
+            opacity: 0.7;
+        }
+
+        &--medium {
+            background: $color-amber;
+        }
+
+        &--evidence {
+            background: $color-green;
+        }
+    }
+
+    &__line {
+        width: 18px;
+        height: 2px;
+        background: $color-amber;
+        border-top: 2px dashed $color-amber;
+        flex-shrink: 0;
+    }
+}
+
+.map-focus-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba($color-red, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid $color-red;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    z-index: 1000;
+}
+
+// ── Leaflet custom marker styles (global via ::ng-deep) ──────────────────────
+:host ::ng-deep {
+
+    .map-marker {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        transition: transform 0.15s;
+
+        &--crime {
+            background: rgba($color-red, 0.9);
+            animation: pulse-ring 2s infinite;
+        }
+
+        &--high {
+            background: rgba($color-red, 0.85);
+        }
+
+        &--medium {
+            background: rgba($color-amber, 0.85);
+        }
+
+        &--low {
+            background: rgba($color-green, 0.85);
+        }
+
+        &--evidence {
+            width: 28px;
+            height: 28px;
+            background: rgba($color-green, 0.85);
+            font-size: 13px;
+        }
+
+        &--focused {
+            box-shadow: 0 0 0 4px rgba($color-amber, 0.4), 0 2px 8px rgba(0, 0, 0, 0.5);
+            animation: pulse-ring 2s infinite;
+        }
+
+        &--flash {
+            background: rgba(96, 165, 250, 0.9);
+            animation: pulse-ring 1s ease-out;
+        }
+    }
+
+    .map-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: $color-amber;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        opacity: 0.7;
+    }
+
+    .map-arrow {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $color-amber;
+        font-size: 16px;
+        text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+        pointer-events: none;
+        transform-origin: center center;
+    }
+
+    .map-popup {
+        font-family: $font-sans;
+        min-width: 160px;
+
+        &__title {
+            font-size: 13px;
+            font-weight: 600;
+            color: $text-primary;
+            margin-bottom: 6px;
+        }
+
+        &__sub {
+            font-size: 11px;
+            color: $text-muted;
+            margin-top: 4px;
+        }
+
+        &__time {
+            font-size: 10px;
+            color: $text-muted;
+            font-family: $font-mono;
+            margin-top: 3px;
+        }
+
+        &__desc {
+            font-size: 11px;
+            color: $text-secondary;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        &__row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: $text-secondary;
+            margin-top: 3px;
+        }
+
+        &__label {
+            color: $text-muted;
+        }
+
+        &__risk {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 1px 5px;
+            border-radius: 3px;
+
+            &--high {
+                background: rgba($color-red, 0.2);
+                color: $color-red;
+            }
+
+            &--medium {
+                background: rgba($color-amber, 0.2);
+                color: $color-amber;
+            }
+
+            &--low {
+                background: rgba($color-green, 0.2);
+                color: $color-green;
+            }
+        }
+    }
+}
+
+@keyframes pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.5), 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 38, 38, 0), 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0), 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+}

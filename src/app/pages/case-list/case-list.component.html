@@ -1,0 +1,136 @@
+<div class="cases-list">
+  <!-- Header -->
+  <div class="cases-list__header">
+    <div class="cases-list__header-left">
+      <div class="cases-list__logo">
+        <lucide-icon name="search" size="28"></lucide-icon>
+      </div>
+      <div>
+        <h1 class="cases-list__title">
+          Crime Intelligence &amp; Investigation System
+        </h1>
+        <p class="cases-list__subtitle">Case Management Overview</p>
+      </div>
+    </div>
+
+    <div class="cases-list__header-right">
+      <div class="cases-list__officer">Officer ID: 2451</div>
+      <div class="cases-list__date">{{ currentDate }}</div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="cases-list__content">
+    <!-- Stats row -->
+    <div class="cases-list__stats">
+      <div class="stat-card stat-card--blue">
+        <div class="stat-card__body">
+          <div class="stat-card__label">Total Cases</div>
+          <div class="stat-card__value">{{ allCases.length }}</div>
+        </div>
+        <div class="stat-card__icon">
+          <lucide-icon name="database" size="28"></lucide-icon>
+        </div>
+      </div>
+      <div class="stat-card stat-card--green">
+        <div class="stat-card__body">
+          <div class="stat-card__label">Active Cases</div>
+          <div class="stat-card__value">{{ activeCases }}</div>
+        </div>
+        <div class="stat-card__icon">
+          <lucide-icon name="activity" size="28"></lucide-icon>
+        </div>
+      </div>
+      <div class="stat-card stat-card--red">
+        <div class="stat-card__body">
+          <div class="stat-card__label">High Priority</div>
+          <div class="stat-card__value">{{ highPriority }}</div>
+        </div>
+        <div class="stat-card__icon">
+          <lucide-icon name="triangle-alert" size="28"></lucide-icon>
+        </div>
+      </div>
+      <div class="stat-card stat-card--gray">
+        <div class="stat-card__body">
+          <div class="stat-card__label">Closed Cases</div>
+          <div class="stat-card__value">{{ closedCases }}</div>
+        </div>
+        <div class="stat-card__icon">
+          <lucide-icon name="circle-check-big" size="28"></lucide-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search + filter -->
+    <div class="cases-list__toolbar">
+      <div class="cases-list__search">
+        <span class="cases-list__search-icon">
+          <lucide-icon name="search" size="14"></lucide-icon>
+        </span>
+        <input
+          type="text"
+          class="cases-list__search-input"
+          placeholder="Search cases by title or location..."
+          [(ngModel)]="searchQuery"
+        />
+      </div>
+      <div class="cases-list__filters">
+        <button
+          class="cases-list__filter-btn"
+          [class.cases-list__filter-btn--active]="filterStatus === 'all'"
+          (click)="setFilter('all')"
+        >
+          All Cases
+        </button>
+        <button
+          class="cases-list__filter-btn"
+          [class.cases-list__filter-btn--active]="filterStatus === 'active'"
+          (click)="setFilter('active')"
+        >
+          Active
+        </button>
+        <button
+          class="cases-list__filter-btn"
+          [class.cases-list__filter-btn--active]="filterStatus === 'closed'"
+          (click)="setFilter('closed')"
+        >
+          Closed
+        </button>
+      </div>
+    </div>
+
+    <!-- Case cards -->
+    <div class="cases-list__cards">
+      <div
+        class="case-card"
+        *ngFor="let c of filteredCases"
+        (click)="goToCase(c.id)"
+      >
+        <div class="case-card__main">
+          <div class="case-card__top">
+            <h3 class="case-card__title">{{ c.title }}</h3>
+            <span class="badge badge--{{ c.priority }}">{{
+              c.priority.toUpperCase()
+            }}</span>
+            <span class="case-card__status case-card__status--{{ c.status }}">
+              ● {{ c.status | titlecase }}
+            </span>
+          </div>
+          <p class="case-card__desc">{{ c.description }}</p>
+          <div class="case-card__meta">
+            <span class="case-card__meta-item">📍 {{ c.location }}</span>
+            <span class="case-card__meta-item">🕐 {{ c.time }}</span>
+          </div>
+        </div>
+        <div class="case-card__arrow">
+          <lucide-icon name="chevron-right"></lucide-icon>
+        </div>
+      </div>
+
+      <div class="cases-list__empty" *ngIf="filteredCases.length === 0">
+        <span>🔎</span>
+        <p>No cases found matching your criteria</p>
+      </div>
+    </div>
+  </div>
+</div>

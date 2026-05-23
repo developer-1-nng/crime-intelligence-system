@@ -1,0 +1,178 @@
+<div class="insights">
+
+    @if (!selectedCase ) {
+
+    <div class="insights__empty">
+        Select a case to view insights
+    </div>
+    }
+
+    <!-- ── SUSPECT MODE ──────────────────────────────────────────────────── -->
+    @if (selectedCase && selectedSuspect) {
+    <div class="insights__header">
+        <h2 class="insights__title">Suspect Profile</h2>
+    </div>
+
+    <!-- Avatar + name -->
+    <div class="insights__section">
+        <div class="insights__profile">
+            <div class="insights__avatar insights__avatar--{{ selectedSuspect.riskLevel }}">
+                {{ getInitials(selectedSuspect.name) }}
+            </div>
+            <div>
+                <div class="insights__name">{{ selectedSuspect.name }}</div>
+                <span class="risk-badge risk-badge--{{ selectedSuspect.riskLevel }}">
+                    {{ selectedSuspect.riskLevel.toUpperCase() }} RISK
+                </span>
+            </div>
+        </div>
+
+        <!-- Suspicion score bar -->
+        <div class="insights__score-wrap">
+            <div class="insights__score-row">
+                <span class="insights__score-label">Suspicion Score</span>
+                <span class="insights__score-val">{{ selectedSuspect.suspicionScore }}%</span>
+            </div>
+            <div class="score-bar">
+                <div class="score-bar__fill score-bar__fill--{{ scoreClass }}"
+                    [style.width.%]="selectedSuspect.suspicionScore"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Last known location -->
+    <div class="insights__section">
+        <h4 class="insights__section-title">⚠️ Last Known Location</h4>
+        <div class="insights__kv">
+            <span class="insights__key">Location</span>
+            <span class="insights__val">{{ selectedSuspect.lastSeenLocation }}</span>
+        </div>
+        <div class="insights__kv">
+            <span class="insights__key">Time</span>
+            <span class="insights__val">{{ selectedSuspect.lastSeen }}</span>
+        </div>
+    </div>
+
+    <!-- Linked reasons -->
+    <div class="insights__section">
+        <h4 class="insights__section-title">📄 Why This Suspect?</h4>
+        <ul class="insights__reasons">
+            @for (reason of selectedSuspect.linkedReasons; track $index) {
+            <li class="insights__reason">
+                <span class="insights__reason-check">✓</span>
+                {{ reason }}
+            </li>
+            }
+        </ul>
+    </div>
+
+    <!-- Evidence -->
+    <div class="insights__section">
+        <h4 class="insights__section-title">
+            📷 Related Evidence
+            <span class="insights__count">{{ suspectEvidence.length }} items</span>
+        </h4>
+        @if (suspectEvidence.length === 0) {
+        <div class="insights__empty-sub">
+            No direct evidence linked
+        </div>
+        }
+        <div class="insights__evidence-list">
+            @for (item of suspectEvidence; track $index) {
+            <div class="insights__evidence-item">
+                <div class="insights__evidence-row">
+                    <span class="insights__evidence-type">📷 {{ item.type }}</span>
+                    <span class="insights__evidence-time">{{ item.timestamp.split(' ')[1] }}</span>
+                </div>
+                <div class="insights__evidence-loc">{{ item.location }}</div>
+                <div class="insights__evidence-desc">{{ item.description }}</div>
+            </div>
+            }
+        </div>
+
+    </div>
+    }
+
+    <!-- ── CASE MODE ─────────────────────────────────────────────────────── -->
+    @if (selectedCase && !selectedSuspect) {
+    <div class="insights__header">
+        <h2 class="insights__title">Case Overview</h2>
+    </div>
+
+    <!-- Case summary -->
+    <div class="insights__section">
+        <h3 class="insights__case-title">{{ selectedCase.title }}</h3>
+        <div class="insights__kv">
+            <span class="insights__key">Status</span>
+            <span class="badge badge--{{ selectedCase.status }}">{{ selectedCase.status }}</span>
+        </div>
+        <div class="insights__kv">
+            <span class="insights__key">Priority</span>
+            <span class="badge badge--{{ selectedCase.priority }}">{{ selectedCase.priority }}</span>
+        </div>
+        <div class="insights__kv">
+            <span class="insights__key">Time</span>
+            <span class="insights__val">{{ selectedCase.time }}</span>
+        </div>
+        <div class="insights__kv">
+            <span class="insights__key">Location</span>
+            <span class="insights__val">{{ selectedCase.location }}</span>
+        </div>
+        <p class="insights__desc">{{ selectedCase.description }}</p>
+    </div>
+
+    <!-- Linked suspects -->
+    <div class="insights__section">
+        <h4 class="insights__section-title">
+            👤 Linked Suspects
+            <span class="insights__count">{{ suspects.length }}</span>
+        </h4>
+        <div class="insights__suspect-list">
+            @for (s of suspects; track $index) {
+            <div class="insights__suspect-row">
+                <div class="insights__suspect-info">
+                    <span class="insights__suspect-name">{{ s.name }}</span>
+                    <span class="insights__suspect-score">{{ s.suspicionScore }}%</span>
+                </div>
+                <span class="risk-badge risk-badge--{{ s.riskLevel }}">{{ s.riskLevel }}</span>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Active alerts -->
+    @if (highRiskSuspects.length > 0) {
+    <div class="insights__section">
+        <h4 class="insights__section-title">⚠️ Active Alerts</h4>
+        <div class="insights__alerts">
+            @for (s of highRiskSuspects; track $index) {
+            <div class="insights__alert">
+                <div class="insights__alert-name">High-risk: {{ s.name }}</div>
+                <div class="insights__alert-time">Last seen: {{ s.lastSeen }}</div>
+            </div>
+            }
+        </div>
+    </div>
+    }
+
+    <!-- Evidence summary -->
+    <div class="insights__section">
+        <h4 class="insights__section-title">
+            📷 Evidence Summary
+            <span class="insights__count">{{ evidence.length }} items</span>
+        </h4>
+        <div class="insights__evidence-list">
+            @for (item of evidence.slice(0,4); track $index) {
+            <div class="insights__evidence-item">
+                <div class="insights__evidence-row">
+                    <span class="insights__evidence-type">{{ item.type }}</span>
+                    <span class="insights__evidence-time">{{ item.timestamp.split(' ')[1] }}</span>
+                </div>
+                <div class="insights__evidence-loc">{{ item.location }}</div>
+            </div>
+            }
+        </div>
+
+    </div>
+    }
+</div>
